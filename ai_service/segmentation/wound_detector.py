@@ -66,7 +66,10 @@ class WoundDetector:
         # 3. Targeted Wound Component Detection:
         
         # A. Active Erythema / Granulation Bed (Significantly elevated a* above surrounding skin median)
-        a_threshold = max(148.0, skin_a_median + 1.2 * skin_a_std)
+        if skin_a_median > 145.0:
+            a_threshold = 145.0
+        else:
+            a_threshold = max(145.0, skin_a_median + 1.2 * skin_a_std)
         erythema_mask = (a_chan >= a_threshold) & (bio_tissue_mask > 0)
 
         # B. Surgical Incision / Suture Line / Deep Scab (Darker contrast with distinct red/dark edge)
